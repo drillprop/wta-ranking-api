@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@types/node": "^20.2.5",
+    "cheerio": "1.0.0-rc.12",
     "fastify": "^4.26.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "valibot": "^0.28.1"
   }
 }
