@@ -9,8 +9,13 @@ const playerDataSchema = v.object({
   name: v.string(),
   age: v.number(),
   points: v.number(),
-  country: v.optional(v.string()),
-  countryRank: v.optional(v.number()),
+  country: v.string(),
+  countryRank: v.number(),
+  rankingChange: v.nullable(v.number()),
+  pointsChange: v.nullable(v.number()),
+  currentTournament: v.nullable(v.string()),
+  next: v.nullable(v.number()),
+  max: v.nullable(v.number()),
 });
 
 type Player = v.Input<typeof playerDataSchema>;
@@ -25,27 +30,49 @@ server.get("/", async (request, reply) => {
   const players: Player[] = [];
 
   $("#u868 > tbody > tr").each((_, el) => {
-    const playerData: Partial<Player> = {};
+    const playerData: Partial<Player> = {
+      pointsChange: null,
+      rankingChange: null,
+      currentTournament: null,
+      max: null,
+      next: null,
+    };
+
     $(el)
       .children("td")
-      .each((idx, el) => {
-        const $el = $(el);
+      .each((idx, tableDataCell) => {
+        const $tableDataCell = $(tableDataCell);
 
-        if ($el.hasClass("rk")) {
-          playerData.ranking = Number($el.text()) || 0;
+        if ($tableDataCell.hasClass("rk")) {
+          playerData.ranking = Number($tableDataCell.text());
         }
-        if ($el.hasClass("pn")) {
-          playerData.name = $el.text();
+        if ($tableDataCell.hasClass("pn")) {
+          playerData.name = $tableDataCell.text();
         }
-        if ($el.prev().hasClass("pn")) {
-          playerData.age = Number($el.text()) || 0;
+        if ($tableDataCell.prev().hasClass("pn")) {
+          playerData.age = Number($tableDataCell.text());
+        }
+        if ($tableDataCell.hasClass("rdf")) {
+          playerData.rankingChange = Number($tableDataCell.text());
+        }
+        if ($tableDataCell.hasClass("srd") || $tableDataCell.hasClass("sgr")) {
+          playerData.pointsChange = Number($tableDataCell.text());
+        }
+        if ($tableDataCell.hasClass("tc") && idx === 9) {
+          playerData.currentTournament = $tableDataCell.text();
         }
         if (idx === 5) {
-          playerData.country = $el.text();
-          playerData.countryRank = Number($el.attr("p")) || 1;
+          playerData.country = $tableDataCell.text();
+          playerData.countryRank = Number($tableDataCell.attr("p"));
         }
         if (idx === 6) {
-          playerData.points = Number($el.text()) || 0;
+          playerData.points = Number($tableDataCell.text());
+        }
+        if (idx === 11) {
+          playerData.next = Number($tableDataCell.text());
+        }
+        if (idx === 12) {
+          playerData.max = Number($tableDataCell.text());
         }
       });
 
