@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
-import fastify from "fastify";
 import * as v from "valibot";
+import fastify from "fastify";
 
 const server = fastify();
 
@@ -29,7 +29,7 @@ server.get("/", async (request, reply) => {
 
   const players: Player[] = [];
 
-  $("#u868 > tbody > tr").each((_, el) => {
+  $("#u868 > tbody > tr").each((_, tableRow) => {
     const playerData: Partial<Player> = {
       pointsChange: null,
       rankingChange: null,
@@ -38,7 +38,11 @@ server.get("/", async (request, reply) => {
       next: null,
     };
 
-    $(el)
+    if ($(tableRow).children("td").attr("colspan") === "14") {
+      return;
+    }
+
+    $(tableRow)
       .children("td")
       .each((idx, tableDataCell) => {
         const $tableDataCell = $(tableDataCell);
@@ -68,10 +72,10 @@ server.get("/", async (request, reply) => {
         if (idx === 6) {
           playerData.points = Number($tableDataCell.text());
         }
-        if (idx === 11) {
+        if (idx === 11 && $tableDataCell.hasClass("")) {
           playerData.next = Number($tableDataCell.text());
         }
-        if (idx === 12) {
+        if (idx === 12 && $tableDataCell.hasClass("")) {
           playerData.max = Number($tableDataCell.text());
         }
       });
@@ -79,6 +83,8 @@ server.get("/", async (request, reply) => {
     const validationResult = v.safeParse(playerDataSchema, playerData);
     if (validationResult.success) {
       players.push(validationResult.output);
+    } else {
+      console.error("Something went wrong with fetching player", playerData);
     }
   });
 
