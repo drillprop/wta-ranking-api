@@ -72,10 +72,10 @@ server.get("/", async (request, reply) => {
         if (idx === 6) {
           playerData.points = Number($tableDataCell.text());
         }
-        if (idx === 11 && $tableDataCell.hasClass("")) {
+        if (idx === 11 && $tableDataCell.text()) {
           playerData.next = Number($tableDataCell.text());
         }
-        if (idx === 12 && $tableDataCell.hasClass("")) {
+        if (idx === 12 && $tableDataCell.text()) {
           playerData.max = Number($tableDataCell.text());
         }
       });
