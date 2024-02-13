@@ -46,37 +46,38 @@ server.get("/", async (request, reply) => {
       .children("td")
       .each((idx, tableDataCell) => {
         const $tableDataCell = $(tableDataCell);
+        const tdTextContent = $tableDataCell.text();
 
         if ($tableDataCell.hasClass("rk")) {
-          playerData.ranking = Number($tableDataCell.text());
+          playerData.ranking = Number(tdTextContent);
         }
         if ($tableDataCell.hasClass("pn")) {
-          playerData.name = $tableDataCell.text();
+          playerData.name = tdTextContent;
         }
         if ($tableDataCell.prev().hasClass("pn")) {
-          playerData.age = Number($tableDataCell.text());
+          playerData.age = Number(tdTextContent);
         }
         if ($tableDataCell.hasClass("rdf")) {
-          playerData.rankingChange = Number($tableDataCell.text());
+          playerData.rankingChange = Number(tdTextContent);
         }
         if ($tableDataCell.hasClass("srd") || $tableDataCell.hasClass("sgr")) {
-          playerData.pointsChange = Number($tableDataCell.text());
+          playerData.pointsChange = Number(tdTextContent);
         }
         if ($tableDataCell.hasClass("tc") && idx === 9) {
-          playerData.currentTournament = $tableDataCell.text();
+          playerData.currentTournament = tdTextContent;
         }
         if (idx === 5) {
-          playerData.country = $tableDataCell.text();
+          playerData.country = tdTextContent;
           playerData.countryRank = Number($tableDataCell.attr("p"));
         }
         if (idx === 6) {
-          playerData.points = Number($tableDataCell.text());
+          playerData.points = Number(tdTextContent);
         }
-        if (idx === 11 && $tableDataCell.text()) {
-          playerData.next = Number($tableDataCell.text());
+        if (idx === 11 && tdTextContent && $tableDataCell.hasClass("")) {
+          playerData.next = Number(tdTextContent);
         }
-        if (idx === 12 && $tableDataCell.text()) {
-          playerData.max = Number($tableDataCell.text());
+        if (idx === 12 && tdTextContent && $tableDataCell.hasClass("")) {
+          playerData.max = Number(tdTextContent);
         }
       });
 
