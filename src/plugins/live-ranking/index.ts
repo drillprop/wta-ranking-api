@@ -4,6 +4,8 @@ import * as v from "valibot";
 import { Player, playerDataSchema } from "../../utils/playerValidation";
 import { envs } from "../../config/envs";
 
+type TextType = Extract<cheerio.AnyNode, { type: "text" }>;
+
 export const liveRankingRoute = async (server: FastifyInstance) => {
   server.get("/live-ranking", async () => {
     const response = await fetch(`${envs.RANKING_ENDPOINT}/wta-live-ranking`);
@@ -53,10 +55,18 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
             playerData.pointsChange = Number(tdTextContent);
           }
           if ($tableDataCell.hasClass("tc")) {
-            playerData.currentTournament = tdTextContent.replace(
-              /\([^)]*\)/g,
-              ""
-            );
+            const currentTournament = $tableDataCell
+              .contents()
+              .filter(
+                (_, el): el is TextType =>
+                  el.type === "text" &&
+                  !(el.data.includes("(") || el.data.includes(")"))
+              )
+              .map((_, el) => el.data)
+              .toArray()
+              .join(", ");
+
+            playerData.currentTournament = currentTournament;
           }
           if (idx === 5) {
             playerData.country = tdTextContent;
