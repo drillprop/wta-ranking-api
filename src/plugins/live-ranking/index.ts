@@ -32,6 +32,7 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
         .each((idx, tableDataCell) => {
           const $tableDataCell = $(tableDataCell);
           const tdTextContent = $tableDataCell.text();
+          const hasNoClass = !$tableDataCell.attr("class");
 
           if ($tableDataCell.hasClass("rk")) {
             playerData.ranking = Number(tdTextContent);
@@ -51,8 +52,11 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
           ) {
             playerData.pointsChange = Number(tdTextContent);
           }
-          if ($tableDataCell.hasClass("tc") && idx === 9) {
-            playerData.currentTournament = tdTextContent;
+          if ($tableDataCell.hasClass("tc")) {
+            playerData.currentTournament = tdTextContent.replace(
+              /\([^)]*\)/g,
+              ""
+            );
           }
           if (idx === 5) {
             playerData.country = tdTextContent;
@@ -61,10 +65,10 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
           if (idx === 6) {
             playerData.points = Number(tdTextContent);
           }
-          if (idx === 11 && tdTextContent && $tableDataCell.hasClass("")) {
+          if (idx === 11 && tdTextContent && hasNoClass) {
             playerData.next = Number(tdTextContent);
           }
-          if (idx === 12 && tdTextContent && $tableDataCell.hasClass("")) {
+          if (idx === 12 && tdTextContent && hasNoClass) {
             playerData.max = Number(tdTextContent);
           }
         });
