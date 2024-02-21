@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
 import * as cheerio from "cheerio";
 import * as v from "valibot";
-import { Player, playerDataSchema } from "../../utils/playerValidation";
-import { envs } from "../../config/envs";
+import { Player, playerDataSchema } from "@/utils/playerValidation";
+import { envs } from "@/config/envs";
 
 type TextType = Extract<cheerio.AnyNode, { type: "text" }>;
 

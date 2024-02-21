@@ -1,6 +1,6 @@
 import fastify from "fastify";
-import { liveRankingRoute } from "./plugins/live-ranking";
-import { envs } from "./config/envs";
+import { liveRankingRoute } from "@/plugins/live-ranking";
+import { envs } from "@/config/envs";
 
 const server = fastify();
 

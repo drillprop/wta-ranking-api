@@ -8,11 +8,13 @@
 		"sourceMap": true,
 		"strict": true,
 		"outDir": "build",
-		"baseUrl": "src",
-		"paths": {
-			"config/*": ["config/*"]
-		}
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    }
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "index.d.ts"],
 	"exclude": ["node_modules"]
 }

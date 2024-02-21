@@ -8,12 +8,6 @@ export const envSchema = v.object({
 
 export type Env = v.Input<typeof envSchema>;
 
-declare global {
-	namespace NodeJS {
-		interface ProcessEnv extends Env {}
-	}
-}
-
 const envServer = v.safeParse(envSchema, {
 	PORT: process.env.PORT,
 	RANKING_ENDPOINT: process.env.RANKING_ENDPOINT,
