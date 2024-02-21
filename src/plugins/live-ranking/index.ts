@@ -40,6 +40,16 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 					if ($tableDataCell.hasClass("rk")) {
 						playerData.ranking = Number(tdTextContent);
 					}
+					if ($tableDataCell.hasClass("chtd")) {
+						const bTag = $tableDataCell.children("b");
+						if (bTag.hasClass("chigh")) {
+							playerData.careerHigh = Number($tableDataCell.prev().text());
+						} else if (bTag.hasClass("nwch")) {
+							playerData.careerHigh = Number($tableDataCell.prev().text());
+						} else {
+							playerData.careerHigh = Number($tableDataCell.children("b").text());
+						}
+					}
 					if ($tableDataCell.hasClass("pn")) {
 						playerData.name = tdTextContent;
 					}
