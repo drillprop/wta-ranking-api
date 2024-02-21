@@ -1,17 +1,17 @@
-import * as v from "valibot";
+import { object, string, Input, nullable, number } from "valibot";
 
-export const playerDataSchema = v.object({
-	ranking: v.number(),
-	name: v.string(),
-	age: v.number(),
-	points: v.number(),
-	country: v.string(),
-	countryRank: v.number(),
-	rankingChange: v.nullable(v.number()),
-	pointsChange: v.nullable(v.number()),
-	currentTournament: v.nullable(v.string()),
-	next: v.nullable(v.number()),
-	max: v.nullable(v.number()),
+export const playerDataSchema = object({
+	ranking: number(),
+	name: string(),
+	age: number(),
+	points: number(),
+	country: string(),
+	countryRank: number(),
+	rankingChange: nullable(number()),
+	pointsChange: nullable(number()),
+	currentTournament: nullable(string()),
+	next: nullable(number()),
+	max: nullable(number()),
 });
 
-export type Player = v.Input<typeof playerDataSchema>;
+export type Player = Input<typeof playerDataSchema>;

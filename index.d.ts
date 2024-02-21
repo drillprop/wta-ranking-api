@@ -1,7 +1,7 @@
 import { envSchema } from "@/config/envs";
-import * as v from "valibot";
+import { Input } from "valibot";
 
-export type Env = v.Input<typeof envSchema>;
+export type Env = Input<typeof envSchema>;
 declare global {
 	module NodeJS {
 		interface ProcessEnv extends Env {}

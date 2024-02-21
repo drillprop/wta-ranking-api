@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
-import * as cheerio from "cheerio";
-import * as v from "valibot";
+import { AnyNode, load } from "cheerio";
+import { safeParse } from "valibot";
 import { Player, playerDataSchema } from "@/utils/playerValidation";
 import { envs } from "@/config/envs";
 
-type TextType = Extract<cheerio.AnyNode, { type: "text" }>;
+type TextType = Extract<AnyNode, { type: "text" }>;
 
 export const liveRankingRoute = async (server: FastifyInstance) => {
 	server.get("/live-ranking", async () => {
@@ -12,7 +12,7 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 
 		const html = await response.text();
 
-		const $ = cheerio.load(html);
+		const $ = load(html);
 
 		const players: Player[] = [];
 
@@ -78,7 +78,7 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 					}
 				});
 
-			const validationResult = v.safeParse(playerDataSchema, playerData);
+			const validationResult = safeParse(playerDataSchema, playerData);
 			if (validationResult.success) {
 				players.push(validationResult.output);
 			} else {

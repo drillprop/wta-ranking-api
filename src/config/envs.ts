@@ -1,14 +1,14 @@
-import * as v from "valibot";
+import { object, string, Input, safeParse } from "valibot";
 import "dotenv/config";
 
-export const envSchema = v.object({
-	PORT: v.string(),
-	RANKING_ENDPOINT: v.string(),
+export const envSchema = object({
+	PORT: string(),
+	RANKING_ENDPOINT: string(),
 });
 
-export type Env = v.Input<typeof envSchema>;
+export type Env = Input<typeof envSchema>;
 
-const envServer = v.safeParse(envSchema, {
+const envServer = safeParse(envSchema, {
 	PORT: process.env.PORT,
 	RANKING_ENDPOINT: process.env.RANKING_ENDPOINT,
 });
