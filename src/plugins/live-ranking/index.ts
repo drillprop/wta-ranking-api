@@ -1,8 +1,9 @@
-import { FastifyInstance } from "fastify";
 import { AnyNode, load } from "cheerio";
+import { FastifyInstance } from "fastify";
 import { safeParse } from "valibot";
-import { Player, playerDataSchema } from "@/utils/playerValidation";
+
 import { envs } from "@/config/envs";
+import { Player, playerDataSchema } from "@/utils/playerValidation";
 
 type TextType = Extract<AnyNode, { type: "text" }>;
 

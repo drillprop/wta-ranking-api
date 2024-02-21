@@ -1,5 +1,6 @@
-import { envSchema } from "@/config/envs";
 import { Input } from "valibot";
+
+import { envSchema } from "@/config/envs";
 
 export type Env = Input<typeof envSchema>;
 declare global {
