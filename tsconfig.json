@@ -1,18 +1,20 @@
 {
-  "compilerOptions": {
-    "lib": ["es2020"],
-    "module": "commonjs",
-    "target": "es2020",
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "strict": true,
-    "outDir": "build",
-    "baseUrl": "src",
+	"compilerOptions": {
+		"lib": ["es2020"],
+		"module": "commonjs",
+		"target": "es2020",
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"strict": true,
+		"outDir": "build",
+    "baseUrl": "./src",
     "paths": {
-      "config/*": ["config/*"]
+      "@/*": [
+        "*"
+      ]
     }
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+	},
+	"include": ["src/**/*.ts", "index.d.ts"],
+	"exclude": ["node_modules"]
 }
