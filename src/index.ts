@@ -1,13 +1,16 @@
 import fastify from "fastify";
+import { serializerCompiler } from "fastify-type-provider-valibot";
 
 import { envs } from "@/config/envs";
 import { liveRankingRoute } from "@/plugins/live-ranking";
 
-const server = fastify();
+const app = fastify();
 
-server.register(liveRankingRoute);
+app.setSerializerCompiler(serializerCompiler);
 
-server.listen({ port: Number(envs.PORT) }, (err, address) => {
+app.register(liveRankingRoute);
+
+app.listen({ port: Number(envs.PORT) }, (err, address) => {
 	if (err) {
 		console.error(err);
 		process.exit(1);

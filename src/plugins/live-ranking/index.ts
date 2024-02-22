@@ -1,17 +1,29 @@
-import { AnyNode, load } from "cheerio";
-import { FastifyInstance } from "fastify";
-import { safeParse } from "valibot";
+import type { AnyNode } from "cheerio";
+import { load } from "cheerio";
+import type { FastifyInstance } from "fastify";
+import type { ValibotTypeProvider } from "fastify-type-provider-valibot";
+import { array, safeParse } from "valibot";
 
 import { envs } from "@/config/envs";
-import { Player, playerDataSchema } from "@/utils/playerValidation";
+import type { ValibotRouteShorthandOptions } from "@/types";
+import type { Player } from "@/utils/playerValidation";
+import { playerDataSchema } from "@/utils/playerValidation";
 
 type TextType = Extract<AnyNode, { type: "text" }>;
 
-export const liveRankingRoute = async (server: FastifyInstance) => {
-	server.get("/live-ranking", async () => {
-		const response = await fetch(`${envs.RANKING_ENDPOINT}/wta-live-ranking`);
+export const liveRankingRoute = async (app: FastifyInstance) => {
+	const opts: ValibotRouteShorthandOptions = {
+		schema: {
+			response: {
+				200: array(playerDataSchema),
+			},
+		},
+	};
 
-		const html = await response.text();
+	app.withTypeProvider<ValibotTypeProvider>().get("/live-ranking", opts, async (_req, res) => {
+		const rankingResponse = await fetch(`${envs.RANKING_ENDPOINT}/wta-live-ranking`);
+
+		const html = await rankingResponse.text();
 
 		const $ = load(html);
 
@@ -101,6 +113,6 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 			}
 		});
 
-		return players;
+		return res.send(players);
 	});
 };

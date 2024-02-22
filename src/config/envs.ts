@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { Input, object, safeParse, string } from "valibot";
+import type { Input } from "valibot";
+import { object, safeParse, string } from "valibot";
 
 export const envSchema = object({
 	PORT: string(),

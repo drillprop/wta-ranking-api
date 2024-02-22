@@ -1,4 +1,4 @@
-import { Input, nullable, number, object, string } from "valibot";
+import { type Input, nullable, number, object, string } from "valibot";
 
 export const playerDataSchema = object({
 	ranking: number(),
