@@ -35,7 +35,6 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 				.each((idx, tableDataCell) => {
 					const $tableDataCell = $(tableDataCell);
 					const tdTextContent = $tableDataCell.text();
-					const hasNoClass = !$tableDataCell.attr("class");
 
 					if ($tableDataCell.hasClass("rk")) {
 						playerData.ranking = Number(tdTextContent);
@@ -81,10 +80,15 @@ export const liveRankingRoute = async (server: FastifyInstance) => {
 					if (idx === 6) {
 						playerData.points = Number(tdTextContent);
 					}
-					if (idx === 11 && tdTextContent && hasNoClass) {
+
+					const isLastChild = !tableDataCell.nextSibling;
+					const isSecondToLastChild = tableDataCell.nextSibling && !tableDataCell.nextSibling.nextSibling;
+					const hasNoClass = !$tableDataCell.attr("class");
+
+					if (isSecondToLastChild && tdTextContent && hasNoClass) {
 						playerData.next = Number(tdTextContent);
 					}
-					if (idx === 12 && tdTextContent && hasNoClass) {
+					if (isLastChild && tdTextContent && hasNoClass) {
 						playerData.max = Number(tdTextContent);
 					}
 				});
