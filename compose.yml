@@ -1,0 +1,8 @@
+services:
+  api:
+    build: .
+    environment:
+      - RANKING_ENDPOINT=${RANKING_ENDPOINT}
+      - PORT=${PORT}
+    expose:
+      - ${PORT}:${PORT}
